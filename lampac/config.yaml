@@ -2,7 +2,6 @@ name: Lampac
 version: "1.0.0"
 slug: lampac
 description: Lampac Next Generation
-url: https://github.com/lampac-nextgen/lampac
 
 arch:
   - amd64
@@ -11,8 +10,6 @@ arch:
 startup: services
 boot: auto
 init: false
-
-image: ghcr.io/lampac-nextgen/lampac
 
 ports:
   9118/tcp: 9118
