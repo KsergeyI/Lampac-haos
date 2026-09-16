@@ -24,17 +24,22 @@ jobs:
           echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
           echo "Lampac digest: $DIGEST"
 
-      - name: Save digest
-        run: |
-          echo "${{ steps.lampac.outputs.digest }}" > .lampac-digest
-
       - name: Check for changes
         id: changes
         run: |
-          if git diff --quiet .lampac-digest; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
+          NEW="${{ steps.lampac.outputs.digest }}"
+
+          if [ ! -f .lampac-digest ]; then
+            echo "$NEW" > .lampac-digest
             echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Initial digest saved"
+          elif [ "$(cat .lampac-digest)" != "$NEW" ]; then
+            echo "$NEW" > .lampac-digest
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Lampac image changed"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Lampac image unchanged"
           fi
 
       - name: Commit updated digest
