@@ -25,6 +25,15 @@ if [ ! -L /lampac/database ]; then
     ln -s /data/database /lampac/database
 fi
 
+# Persistent TorrServer data
+mkdir -p /data/ts
+chown -R 1000:1000 /data/ts
+
+if [ ! -L /lampac/data/ts ]; then
+    rm -rf /lampac/data/ts
+    ln -s /data/ts /lampac/data/ts
+fi
+
 # Persistent mods
 mkdir -p /data/mods
 chown -R 1000:1000 /data/mods
