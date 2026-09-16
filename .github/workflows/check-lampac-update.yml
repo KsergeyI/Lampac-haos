@@ -33,20 +33,39 @@ jobs:
             echo "$NEW" > .lampac-digest
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Initial digest saved"
+
           elif [ "$(cat .lampac-digest)" != "$NEW" ]; then
             echo "$NEW" > .lampac-digest
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Lampac image changed"
+
           else
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Lampac image unchanged"
           fi
 
-      - name: Commit updated digest
+      - name: Update Add-on version
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          VERSION=$(grep '^version:' lampac/config.yaml | sed 's/.*"\(.*\)".*/\1/')
+          
+          IFS='.' read -r MAJOR MINOR PATCH <<EOF
+          $VERSION
+          EOF
+
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+
+          sed -i "s/^version: .*/version: \"$NEW_VERSION\"/" lampac/config.yaml
+
+          echo "Version: $VERSION -> $NEW_VERSION"
+
+      - name: Commit changes
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .lampac-digest
-          git commit -m "Update Lampac image digest"
+
+          git add .lampac-digest lampac/config.yaml
+          git commit -m "Update Lampac image"
           git push
