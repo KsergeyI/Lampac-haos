@@ -45,9 +45,30 @@ if [ -f /data/passwd ]; then
 fi
 
 # Persistent init.conf
-if [ -f /config/init.conf ]; then
-    cp /config/init.conf /lampac/init.conf
+if [ ! -f /config/init.conf ]; then
+    cat > /config/init.conf << 'EOF'
+{
+  "BaseModule": {
+    "LoadModules": [".*"],
+    "SkipModules": [
+      "Catalog",
+      "Tracks",
+      "Transcoding",
+      "WebLog",
+      "CacheMedia",
+      "ForkPlayerXML",
+      "MsxNative",
+      "Potok",
+      "TelegramAuth",
+      "TelegramAuthBot"
+    ]
+  }
+}
+EOF
+    chown 1000:1000 /config/init.conf
 fi
+
+cp /config/init.conf /lampac/init.conf
 
 # Fix ownership
 chown 1000:1000 /lampac/passwd 2>/dev/null || true
