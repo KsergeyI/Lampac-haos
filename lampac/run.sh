@@ -20,25 +20,23 @@ if [ ! -L /lampac/database ]; then
     ln -s /data/database /lampac/database
 fi
 
-# Persistent password
+# Persistent passwd
 if [ -f /data/passwd ]; then
     cp /data/passwd /lampac/passwd
-    chown 1000:1000 /lampac/passwd
-fi
-
-# Start Lampac
-if [ ! -f /data/passwd ]; then
-    /usr/share/dotnet/dotnet Core.dll &
-    LAMPAC_PID=$!
-
-    while [ ! -f /lampac/passwd ]; do
-        sleep 1
-    done
-
-    cp /lampac/passwd /data/passwd
-    chown 1000:1000 /data/passwd
-
-    wait "$LAMPAC_PID"
 else
-    exec su -s /bin/sh lampac -c "/usr/share/dotnet/dotnet Core.dll"
+    # Lampac создаст passwd при первом запуске
+    :
 fi
+
+# Persistent init.conf
+if [ -f /config/init.conf ]; then
+    cp /config/init.conf /lampac/init.conf
+elif [ -f /lampac/example.init.conf ]; then
+    cp /lampac/example.init.conf /config/init.conf
+    chown 1000:1000 /config/init.conf
+fi
+
+chown 1000:1000 /lampac/passwd 2>/dev/null || true
+chown 1000:1000 /lampac/init.conf 2>/dev/null || true
+
+exec su -s /bin/sh lampac -c "/usr/share/dotnet/dotnet Core.dll"
