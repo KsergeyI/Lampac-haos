@@ -20,6 +20,15 @@ if [ ! -L /lampac/database ]; then
     ln -s /data/database /lampac/database
 fi
 
+# Persistent mods
+mkdir -p /data/mods
+chown -R 1000:1000 /data/mods
+
+if [ ! -L /lampac/mods ]; then
+    rm -rf /lampac/mods
+    ln -s /data/mods /lampac/mods
+fi
+
 # Persistent passwd
 if [ -f /data/passwd ]; then
     cp /data/passwd /lampac/passwd
