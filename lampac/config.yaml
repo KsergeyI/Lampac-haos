@@ -1,5 +1,5 @@
 name: Lampac
-version: "1.1.4"
+version: "1.1.5"
 slug: lampac
 description: Lampac Next Generation
 url: https://github.com/lampac-nextgen/lampac
@@ -22,5 +22,31 @@ map:
   - type: addon_config
     read_only: false
     path: /config
+
+options:
+  init_conf: |
+    {
+      "BaseModule": {
+        "LoadModules": [".*"],
+        "SkipModules": [
+          "Catalog",
+          "Tracks",
+          "Transcoding",
+          "WebLog",
+          "CacheMedia",
+          "ForkPlayerXML",
+          "MsxNative",
+          "Potok",
+          "TelegramAuth",
+          "TelegramAuthBot"
+        ]
+      },
+      "TorrServer": {
+        "releases": "latest"
+      }
+    }
+
+schema:
+  init_conf: str
 
 webui: "http://[HOST]:[PORT:9118]/"
