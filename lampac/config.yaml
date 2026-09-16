@@ -21,6 +21,6 @@ ports_description:
 map:
   - type: addon_config
     read_only: false
-    path: /config
+    path: /lampac/data
 
 webui: "http://[HOST]:[PORT:9118]/"
