@@ -2,6 +2,11 @@
 
 set -e
 
+# Init.conf from Add-on configuration
+if [ -n "$(jq -r '.init_conf // empty' /data/options.json)" ]; then
+    jq -r '.init_conf' /data/options.json > /config/init.conf
+fi
+
 # Persistent cache
 mkdir -p /data/cache
 chown -R 1000:1000 /data/cache
