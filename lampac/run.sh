@@ -31,9 +31,6 @@ fi
 # Persistent init.conf
 if [ -f /config/init.conf ]; then
     cp /config/init.conf /lampac/init.conf
-elif [ -f /lampac/example.init.conf ]; then
-    cp /lampac/example.init.conf /config/init.conf
-    chown 1000:1000 /config/init.conf
 fi
 
 chown 1000:1000 /lampac/passwd 2>/dev/null || true
