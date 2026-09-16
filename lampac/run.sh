@@ -29,6 +29,16 @@ if [ ! -L /lampac/mods ]; then
     ln -s /data/mods /lampac/mods
 fi
 
+# Persistent lampainit.js
+mkdir -p /data/plugins
+chown 1000:1000 /data/plugins
+
+mkdir -p /lampac/plugins/override
+
+if [ -f /data/plugins/lampainit.js ]; then
+    cp /data/plugins/lampainit.js /lampac/plugins/override/lampainit.js
+fi
+
 # Persistent passwd
 if [ -f /data/passwd ]; then
     cp /data/passwd /lampac/passwd
