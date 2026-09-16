@@ -9,7 +9,39 @@ jobs:
   check:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write
+      packages: read
+
     steps:
-      - name: Check upstream Lampac image
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get current Lampac digest
+        id: lampac
         run: |
-          docker pull ghcr.io/lampac-nextgen/lampac:latest
+          DIGEST=$(docker pull ghcr.io/lampac-nextgen/lampac:latest | grep 'Digest:' | awk '{print $2}')
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          echo "Lampac digest: $DIGEST"
+
+      - name: Save digest
+        run: |
+          echo "${{ steps.lampac.outputs.digest }}" > .lampac-digest
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet .lampac-digest; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit updated digest
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .lampac-digest
+          git commit -m "Update Lampac image digest"
+          git push
