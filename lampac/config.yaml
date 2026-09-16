@@ -1,7 +1,8 @@
 name: Lampac
-version: "1.0.1"
+version: "1.0.2"
 slug: lampac
 description: Lampac Next Generation
+url: https://github.com/lampac-nextgen/lampac
 
 arch:
   - amd64
@@ -20,6 +21,6 @@ ports_description:
 map:
   - type: addon_config
     read_only: false
-    path: /lampac
+    path: /config
 
 webui: "http://[HOST]:[PORT:9118]/"
