@@ -18,4 +18,4 @@ if [ ! -L /lampac/database ]; then
     ln -s /data/database /lampac/database
 fi
 
-exec /usr/share/dotnet/dotnet Core.dll
+exec su -s /bin/sh lampac -c "/usr/share/dotnet/dotnet Core.dll"
