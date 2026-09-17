@@ -61,23 +61,93 @@ fi
 # Persistent init.conf
 if [ ! -f /config/init.conf ]; then
     cat > /config/init.conf << 'EOF'
-{
-  "BaseModule": {
-    "LoadModules": [".*"],
-    "SkipModules": [
-      "Catalog",
-      "Tracks",
-      "Transcoding",
-      "WebLog",
-      "CacheMedia",
-      "ForkPlayerXML",
-      "MsxNative",
-      "Potok",
-      "TelegramAuth",
-      "TelegramAuthBot"
-    ]
+init_conf: |
+  {
+   "BaseModule": {
+     "LoadModules": [".*"],
+     "SkipModules": [
+       "Catalog",
+       "Tracks",
+       "Transcoding",
+       "WebLog",
+       "CacheMedia",
+       "ForkPlayerXML",
+       "MsxNative",
+       "Potok",
+       "TelegramAuth",
+       "TelegramAuthBot",
+       "DLNA",
+       "MoonAnime",
+       "AnimeLib",
+       "AniMedia",
+       "AnimeON",
+       "Animebesst",
+       "AnimeGo",
+       "Animevost",
+       "AutoEmbed",
+       "HydraFlix",
+       "MovPI",
+       "PlayEmbed",
+       "RgShows",
+       "SmashyStream",
+       "TwoEmbed",
+       "VidLink",
+       "VidSrc",
+       "Videasy",
+       "AsiaGe",
+       "Geosaitebi",
+       "Rezka",
+       "Alloha",
+       "Filmix",
+       "GetsTV",
+       "IptvOnline",
+       "KinoPub",
+       "SakhTV",
+       "VoKino",
+       "iRemux",
+       "Ashdi",
+       "BamBoo",
+       "Eneyida",
+       "HdvbUA",
+       "KinoUkr",
+       "Tortuga",
+       "UAFilm",
+       "UaKino",
+       "Kinoflix",
+       "AniLiberty",
+       "Dreamerscast",
+       "AniLibria",
+       "Kodik",
+       "AiLiberty",
+       "Mikai",
+       "PidTor",
+       "CubProxy",
+       "TmdbProxy",
+     ]
+   },
+   "TorrServer": {
+     "releases": "latest"
+   },
+   "listen": {
+     "localhost": "127.0.0.1"
+   },
+   "LampaWeb": {
+     "customPlugins": [
+       {
+         "url": "{localhost}/sync/js/home",
+         "status": 1
+       }
+     ],
+     "initPlugins": {
+       "sync": false,
+       "bookmark": false,
+       "timecode": false,
+       "CubProxy": false,
+       "TmdbProxy": false
+
+     }
+   }
   }
-}
 EOF
     chown 1000:1000 /config/init.conf
 fi
