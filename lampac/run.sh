@@ -61,63 +61,61 @@ fi
 # Persistent init.conf
 if [ ! -f /config/init.conf ]; then
     cat > /config/init.conf << 'EOF'
-init_conf: |
-  {
-   "BaseModule": {
-     "LoadModules": [".*"],
-     "SkipModules": [
-       "Catalog",
-       "Tracks",
-       "Transcoding",
-       "WebLog",
-       "CacheMedia",
-       "ForkPlayerXML",
-       "MsxNative",
-       "Potok",
-       "TelegramAuth",
-       "TelegramAuthBot",
-       "DLNA",
-       "Rezka",
-       "Alloha",
-       "Filmix",
-       "GetsTV",
-       "IptvOnline",
-       "KinoPub",
-       "SakhTV",
-       "VoKino",
-       "iRemux",
-       "PidTor",
-       "CubProxy",
-       "TmdbProxy",
-       "OnlineGEO",
-       "OnlineUKR",
-       "OnlineENG",
-       "OnlineAnime",
-     ]
-   },
-   "TorrServer": {
-     "releases": "latest"
-   },
-   "listen": {
-     "localhost": "127.0.0.1"
-   },
-   "LampaWeb": {
-     "customPlugins": [
-       {
-         "url": "{localhost}/sync/js/home",
-         "status": 1
-       }
-     ],
-     "initPlugins": {
-       "sync": false,
-       "bookmark": false,
-       "timecode": false,
-       "CubProxy": false,
-       "TmdbProxy": false
-
-     }
-   }
+{
+  "BaseModule": {
+    "LoadModules": [".*"],
+    "SkipModules": [
+      "Catalog",
+      "Tracks",
+      "Transcoding",
+      "WebLog",
+      "CacheMedia",
+      "ForkPlayerXML",
+      "MsxNative",
+      "Potok",
+      "TelegramAuth",
+      "TelegramAuthBot",
+      "DLNA",
+      "Rezka",
+      "Alloha",
+      "Filmix",
+      "GetsTV",
+      "IptvOnline",
+      "KinoPub",
+      "SakhTV",
+      "VoKino",
+      "iRemux",
+      "PidTor",
+      "CubProxy",
+      "TmdbProxy",
+      "OnlineGEO",
+      "OnlineUKR",
+      "OnlineENG",
+      "OnlineAnime"
+    ]
+  },
+  "TorrServer": {
+    "releases": "latest"
+  },
+  "listen": {
+    "localhost": "127.0.0.1"
+  },
+  "LampaWeb": {
+    "customPlugins": [
+      {
+        "url": "{localhost}/sync/js/home",
+        "status": 1
+      }
+    ],
+    "initPlugins": {
+      "sync": false,
+      "bookmark": false,
+      "timecode": false,
+      "CubProxy": false,
+      "TmdbProxy": false
+    }
   }
+}
 EOF
     chown 1000:1000 /config/init.conf
 fi
